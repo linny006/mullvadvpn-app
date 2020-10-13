@@ -246,9 +246,9 @@ impl SettingsPersister {
 
     #[cfg(windows)]
     pub fn set_split_tunnel_apps(&mut self, paths: HashSet<String>) -> Result<bool, Error> {
-        let should_save = paths != self.settings.excluded_apps;
+        let should_save = paths != self.settings.split_tunnel_apps;
         if should_save {
-            self.settings.excluded_apps = paths;
+            self.settings.split_tunnel_apps = paths;
         }
         self.update(should_save)
     }

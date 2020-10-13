@@ -74,7 +74,7 @@ impl super::SettingsMigration for Migration {
                 #[cfg(windows)]
                 split_tunnel: true,
                 #[cfg(windows)]
-                excluded_apps: HashSet::new(),
+                split_tunnel_apps: HashSet::new(),
                 settings_version: super::SettingsVersion::V2,
             }),
             VersionedSettings::V2(new) => VersionedSettings::V2(new),

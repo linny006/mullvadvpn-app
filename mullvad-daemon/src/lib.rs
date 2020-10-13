@@ -586,7 +586,7 @@ where
 
         #[cfg(windows)]
         let exclude_apps = settings
-            .excluded_apps
+            .split_tunnel_apps
             .iter()
             .map(|s| OsString::from(s))
             .collect();
@@ -1515,7 +1515,7 @@ where
     fn on_get_split_tunnel_apps(&mut self, tx: oneshot::Sender<HashSet<String>>) {
         Self::oneshot_send(
             tx,
-            self.settings.to_settings().excluded_apps,
+            self.settings.to_settings().split_tunnel_apps,
             "get_split_tunnel_apps response",
         );
     }
@@ -1529,7 +1529,7 @@ where
         settings: Settings,
         new_list: HashSet<String>,
     ) {
-        if new_list == settings.excluded_apps {
+        if new_list == settings.split_tunnel_apps {
             Self::oneshot_send(tx, (), success_msg);
             return;
         }
@@ -1563,7 +1563,7 @@ where
                 self.event_listener.notify_settings(settings);
             }
             Err(e) => error!("{}", e.display_chain_with_msg("Unable to save settings")),
-            Ok(false) => unreachable!("new_list != settings.excluded_apps"),
+            Ok(false) => unreachable!("new_list != settings.split_tunnel_apps"),
         }
     }
 
@@ -1571,7 +1571,7 @@ where
     async fn on_add_split_tunnel_app(&mut self, tx: oneshot::Sender<()>, path: String) {
         let settings = self.settings.to_settings();
 
-        let mut new_list = settings.excluded_apps.clone();
+        let mut new_list = settings.split_tunnel_apps.clone();
         new_list.insert(path);
 
         self.set_split_tunnel_paths(tx, "add_split_tunnel_app response", settings, new_list)
@@ -1582,7 +1582,7 @@ where
     async fn on_remove_split_tunnel_app(&mut self, tx: oneshot::Sender<()>, path: String) {
         let settings = self.settings.to_settings();
 
-        let mut new_list = settings.excluded_apps.clone();
+        let mut new_list = settings.split_tunnel_apps.clone();
         new_list.remove(&path);
 
         self.set_split_tunnel_paths(tx, "remove_split_tunnel_app response", settings, new_list)
@@ -1595,11 +1595,11 @@ where
 
         if enabled != settings.split_tunnel {
             let new_list = if enabled {
-                settings.excluded_apps.clone()
+                settings.split_tunnel_apps.clone()
             } else {
                 HashSet::new()
             };
-            if new_list != settings.excluded_apps {
+            if new_list != settings.split_tunnel_apps {
                 let (result_tx, result_rx) = oneshot::channel();
                 self.send_tunnel_command(TunnelCommand::SetExcludedApps(
                     result_tx,
