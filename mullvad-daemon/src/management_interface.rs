@@ -773,8 +773,12 @@ fn convert_settings(settings: &Settings) -> types::Settings {
         show_beta_releases: settings.show_beta_releases,
         #[cfg(windows)]
         split_tunnel: settings.split_tunnel,
+        #[cfg(windows)]
+        split_tunnel_apps: settings.split_tunnel_apps.clone().into_iter().collect(),
         #[cfg(not(windows))]
         split_tunnel: false,
+        #[cfg(not(windows))]
+        split_tunnel_apps: Vec::new(),
     }
 }
 
