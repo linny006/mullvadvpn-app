@@ -55,7 +55,7 @@ pub struct Settings {
     /// Whether to enable split tunneling for [`Settings::excluded_apps`].
     #[cfg(windows)]
     #[serde(default = "default_exclusions_flag")]
-    pub enable_exclusions: bool,
+    pub split_tunnel: bool,
     /// List of applications to exclude from the tunnel.
     #[cfg(windows)]
     pub excluded_apps: HashSet<String>,
@@ -85,7 +85,7 @@ impl Default for Settings {
             tunnel_options: TunnelOptions::default(),
             show_beta_releases: false,
             #[cfg(windows)]
-            enable_exclusions: default_exclusions_flag(),
+            split_tunnel: default_exclusions_flag(),
             #[cfg(windows)]
             excluded_apps: HashSet::new(),
             settings_version: migrations::SettingsVersion::V2,

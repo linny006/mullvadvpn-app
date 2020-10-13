@@ -772,9 +772,9 @@ fn convert_settings(settings: &Settings) -> types::Settings {
         tunnel_options: Some(convert_tunnel_options(&settings.tunnel_options)),
         show_beta_releases: settings.show_beta_releases,
         #[cfg(windows)]
-        enable_exclusions: settings.enable_exclusions,
+        split_tunnel: settings.split_tunnel,
         #[cfg(not(windows))]
-        enable_exclusions: false,
+        split_tunnel: false,
     }
 }
 

@@ -97,7 +97,7 @@ impl SplitTunnel {
 
     async fn get(&self) -> Result<()> {
         let mut rpc = new_rpc_client().await?;
-        let enabled = rpc.get_settings(()).await?.into_inner().enable_exclusions;
+        let enabled = rpc.get_settings(()).await?.into_inner().split_tunnel;
         println!(
             "Split tunnel status: {}",
             if enabled { "on" } else { "off" }

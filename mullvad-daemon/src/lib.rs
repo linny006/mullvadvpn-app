@@ -1534,7 +1534,7 @@ where
             return;
         }
 
-        if settings.enable_exclusions {
+        if settings.split_tunnel {
             let (result_tx, result_rx) = oneshot::channel();
             self.send_tunnel_command(TunnelCommand::SetExcludedApps(
                 result_tx,
@@ -1593,7 +1593,7 @@ where
     async fn on_set_split_tunnel_state(&mut self, tx: oneshot::Sender<()>, enabled: bool) {
         let settings = self.settings.to_settings();
 
-        if enabled != settings.enable_exclusions {
+        if enabled != settings.split_tunnel {
             let new_list = if enabled {
                 settings.excluded_apps.clone()
             } else {
@@ -1628,7 +1628,7 @@ where
                     self.event_listener.notify_settings(settings);
                 }
                 Err(e) => error!("{}", e.display_chain_with_msg("Unable to save settings")),
-                Ok(false) => unreachable!("enabled != settings.enable_exclusions"),
+                Ok(false) => unreachable!("enabled != settings.split_tunnel"),
             }
         } else {
             Self::oneshot_send(tx, (), "set_split_tunnel_state response");

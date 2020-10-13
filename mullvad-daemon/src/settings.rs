@@ -255,7 +255,7 @@ impl SettingsPersister {
 
     #[cfg(windows)]
     pub fn set_split_tunnel_state(&mut self, enabled: bool) -> Result<bool, Error> {
-        let should_save = Self::update_field(&mut self.settings.enable_exclusions, enabled);
+        let should_save = Self::update_field(&mut self.settings.split_tunnel, enabled);
         self.update(should_save)
     }
 
