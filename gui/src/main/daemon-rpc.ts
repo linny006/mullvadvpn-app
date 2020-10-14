@@ -940,17 +940,17 @@ function convertFromBridgeSettings(
   const localSettings = bridgeSettings.local;
   if (localSettings) {
     return customSettings({
-      port: localSettings?.port!,
-      peer: localSettings?.peer!,
+      port: localSettings.port,
+      peer: localSettings.peer,
     });
   }
 
   const remoteSettings = bridgeSettings.remote;
   if (remoteSettings) {
     return customSettings({
-      address: remoteSettings?.address!,
+      address: remoteSettings.address,
       auth: {
-        ...remoteSettings?.auth!,
+        ...remoteSettings.auth!,
       },
     });
   }

@@ -50,7 +50,7 @@ function parseTranslation(locale: string, domain: string, catalogue: Gettext): b
     return false;
   }
 
-  let translations: object;
+  let translations: Record<string, unknown>;
   try {
     translations = po.parse(contents);
   } catch (error) {
