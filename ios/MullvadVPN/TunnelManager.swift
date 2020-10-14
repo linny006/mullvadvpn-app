@@ -1065,6 +1065,10 @@ class TunnelManager {
                 protocolConfig.username = accountToken
                 protocolConfig.passwordReference = passwordReference
 
+                if #available(iOS 14.0, *) {
+                    protocolConfig.includeAllNetworks = true
+                }
+
                 tunnelProvider.isEnabled = true
                 tunnelProvider.localizedDescription = "WireGuard"
                 tunnelProvider.protocolConfiguration = protocolConfig
